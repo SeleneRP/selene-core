@@ -1,8 +1,6 @@
 class_name BundleManifestLoader
 extends Node
 
-@export var bundles_dir = "run://bundles"
-
 signal log(message: String)
 signal script_printed(message: String)
 
@@ -13,7 +11,7 @@ func load(bundle_id: String) -> BundleManifest:
 	add_child(vm)
 	var manifest = BundleManifest.new()
 	manifest.id = bundle_id
-	var manifest_path = Selene.path(bundles_dir).path_join(bundle_id).path_join("bundle.lua")
+	var manifest_path = Selene.path(GlobalPaths.bundles_dir).path_join(bundle_id).path_join("bundle.lua")
 	if FileAccess.file_exists(manifest_path):
 		log.emit("[color=yellow]Loading manifest of bundle %s[/color]" % bundle_id)
 		if _evaluate_script(vm, manifest_path):
