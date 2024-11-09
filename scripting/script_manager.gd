@@ -14,7 +14,7 @@ class CallableWrapper:
 	func __lua_call(pvm: LuauVM):
 		var narg = pvm.lua_gettop()
 		var args = []
-		for i in range(2, narg):
+		for i in range(2, narg + 1):
 			args.append(pvm.lua_tovariant(i))
 		var result = callable.callv(args)
 		pvm.lua_pushvariant(result)
@@ -29,7 +29,7 @@ func _ready():
 		if child.has_method("__lua_load_library"):
 			child.__lua_load_library(vm)
 
-    # Expose a custom require function since Luau does not come with packages module
+	# Expose a custom require function since Luau does not come with packages module
 	vm.lua_pushcallable(_require)
 	vm.lua_setglobal("require")
 
@@ -54,7 +54,10 @@ func _resolve_module_path(module_path: String):
 	var scripts_dir_path = Selene.path(GlobalPaths.server_scripts_dir).path_join(module_file_path)
 	if FileAccess.file_exists(scripts_dir_path):
 		return scripts_dir_path
-	return module_file_path
+	var bundle_script_path = Selene.path(GlobalPaths.bundles_dir).path_join(module_file_path)
+	if FileAccess.file_exists(bundle_script_path):
+		return bundle_script_path
+	return null
 
 func load_module(module_path: String):
 	var regex = RegEx.create_from_string("^[a-z0-9_.-]+$")
@@ -83,6 +86,9 @@ func _require(pvm: LuauVM):
 	pvm.lua_pop(2)
 	
 	var file_path = _resolve_module_path(module_path)
+	if not file_path:
+		print_rich("[color=red]Module not found: %s[/color]" % module_path)
+		return 0
 	var script = FileAccess.get_file_as_string(file_path)
 	if pvm.lua_dostring(script) == pvm.LUA_OK:
 		pvm.lua_getglobal("__modules")
