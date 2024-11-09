@@ -1,7 +1,7 @@
 class_name BundleManifestLoader
 extends Node
 
-@export var bundles_dir = "server://bundles"
+@export var bundles_dir = "run://bundles"
 
 signal log(message: String)
 signal script_printed(message: String)
