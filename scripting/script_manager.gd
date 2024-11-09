@@ -57,9 +57,9 @@ func _resolve_module_path(module_path: String):
 	return module_file_path
 
 func load_module(module_path: String):
-	var regex = RegEx.create_from_string("^[a-z0-9_-]+$")
+	var regex = RegEx.create_from_string("^[a-z0-9_.-]+$")
 	if not regex.search(module_path):
-		push_error("Invalid module path '%s'. Only letters, numbers, underscores and hyphens are allowed." % module_path)
+		push_error("Invalid module path '%s'. Only letters, numbers, underscores, periods and hyphens are allowed." % module_path)
 		return
 	var top_before = vm.lua_gettop()
 	if vm.lua_dostring('require("%s")' % module_path) == vm.LUA_OK:
