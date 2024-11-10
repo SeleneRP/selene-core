@@ -14,3 +14,6 @@ static func globalize_path(p_path: String) -> String:
 		return OS.get_executable_path().get_base_dir().path_join(intermediate.trim_prefix("res://"))
 	else:
 		return ProjectSettings.globalize_path(intermediate)
+
+static func get_root():
+	return SeleneInstance.get_root()
