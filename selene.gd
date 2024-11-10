@@ -17,3 +17,15 @@ static func globalize_path(p_path: String) -> String:
 
 static func get_root():
 	return SeleneInstance.get_root()
+
+static func log_debug(message: String, tags: Array[String] = []):
+	SeleneInstance.log.emit(message, LogLevel.Keys.DEBUG, tags)
+
+static func log(message: String, tags: Array[String] = []):
+	SeleneInstance.log.emit(message, LogLevel.Keys.INFO, tags)
+
+static func log_warning(message: String, tags: Array[String] = []):
+	SeleneInstance.log.emit(message, LogLevel.Keys.WARNING, tags)
+
+static func log_error(message: String, tags: Array[String] = []):
+	SeleneInstance.log.emit(message, LogLevel.Keys.ERROR, tags)

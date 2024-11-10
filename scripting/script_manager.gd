@@ -72,7 +72,7 @@ func load_module(module_path: String):
 			vm.lua_pop(nret)
 	else:
 		var error = vm.lua_tostring(-1)
-		print_rich("[color=red]Lua Error: %s[/color]" % error)
+		Selene.log_error("Lua Error: %s" % error)
 		vm.lua_pop(1)
 		return 0
 
@@ -87,7 +87,7 @@ func _require(pvm: LuauVM):
 	
 	var file_path = _resolve_module_path(module_path)
 	if not file_path:
-		print_rich("[color=red]Module not found: %s[/color]" % module_path)
+		Selene.log_error("Module not found: %s" % module_path)
 		return 0
 	var script = FileAccess.get_file_as_string(file_path)
 	if pvm.lua_dostring(script) == pvm.LUA_OK:
@@ -98,7 +98,7 @@ func _require(pvm: LuauVM):
 		return 1
 	else:
 		var error = pvm.lua_tostring(-1)
-		print_rich("[color=red]Lua Error: %s[/color]" % error)
+		Selene.log_error("Lua Error: %s" % error)
 		pvm.lua_pop(1)
 		return 0
 
