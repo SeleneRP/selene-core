@@ -4,6 +4,5 @@ enum Keys {
 	DEBUG,
 	INFO,
 	WARNING,
-	ERROR,
-	FATAL
+	ERROR
 }

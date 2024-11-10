@@ -17,14 +17,15 @@ func _on_log(message: String, level: LogLevel.Keys, tags: Array[String]):
             color = "yellow"
         LogLevel.Keys.ERROR:
             color = "red"
-        LogLevel.Keys.FATAL:
-            color = "darkred"
     if "success" in tags:
         color = "green"
         tags.erase("success")
     if "pending" in tags:
         color = "yellow"
         tags.erase("pending")
+    if "fatal" in tags:
+        color = "darkred"
+        tags.erase("fatal")
     if not tags.is_empty():
         print_rich("[color=%s][%s] %s[/color]" % [color, tags, message])
     else:
